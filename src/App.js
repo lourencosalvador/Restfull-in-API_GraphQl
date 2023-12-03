@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import { useQUry } from './hooks/useQuery';
+import {gql} from 'graphql-request'
+
+const QUERY = gql`
+query{
+  times {
+    date
+    time {
+      timeString
+      status {
+        primaryStatus
+        secondaryStatus
+      }
+    }
+  }
 }
+`
+function App() {
+    const {data, error} = useQUry(QUERY)
+    console.log(error)
+  return (
+    <>
+      <h1>GraphQl</h1>
+    
+      {data && <h1>{JSON.stringify(data, null, 3)}</h1>}
+    </>
+  );
+  }  
 
 export default App;
